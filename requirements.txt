@@ -1,0 +1,10 @@
+langchain
+langchain-openai
+langchain-community
+langgraph
+langsmith
+faiss-cpu
+python-dotenv
+tiktoken
+pytest
+langchain-text-splitters
