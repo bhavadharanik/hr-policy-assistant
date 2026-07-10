@@ -1,0 +1,56 @@
+[
+  {
+    "question": "How many days of annual leave do I get?",
+    "expected_keywords": ["25 days", "annual leave"],
+    "should_escalate": false,
+    "expected_intent": "policy_lookup"
+  },
+  {
+    "question": "Can I expense a client dinner?",
+    "expected_keywords": ["£75", "client", "manager approval"],
+    "should_escalate": false,
+    "expected_intent": "policy_lookup"
+  },
+  {
+    "question": "What is the paternity leave entitlement?",
+    "expected_keywords": ["2 weeks", "paternity"],
+    "should_escalate": false,
+    "expected_intent": "policy_lookup"
+  },
+  {
+    "question": "How do I report harassment at work?",
+    "expected_keywords": ["line manager", "HR", "Ethics Hotline"],
+    "should_escalate": false,
+    "expected_intent": "policy_lookup"
+  },
+  {
+    "question": "Can I carry over unused leave?",
+    "expected_keywords": ["5 days", "carry over"],
+    "should_escalate": false,
+    "expected_intent": "policy_lookup"
+  },
+  {
+    "question": "What is the company's policy on cryptocurrency investments by employees?",
+    "expected_keywords": [],
+    "should_escalate": true,
+    "expected_intent": "policy_lookup"
+  },
+  {
+    "question": "How much can I claim for a hotel in London?",
+    "expected_keywords": ["£200", "London"],
+    "should_escalate": false,
+    "expected_intent": "policy_lookup"
+  },
+  {
+    "question": "What is the weather today?",
+    "expected_keywords": ["HR", "HR-related"],
+    "should_escalate": false,
+    "expected_intent": "out_of_scope"
+  },
+  {
+    "question": "What is my leave balance?",
+    "expected_keywords": [],
+    "should_escalate": false,
+    "expected_intent": "personal_record"
+  }
+]
