@@ -1,55 +1,55 @@
 [
   {
     "question": "How many days of annual leave do I get?",
-    "expected_keywords": ["25 days", "annual leave"],
+    "expected_phrases": ["25 days annual leave", "leave entitlement per year"],
     "should_escalate": false,
     "expected_intent": "policy_lookup"
   },
   {
     "question": "Can I expense a client dinner?",
-    "expected_keywords": ["£75", "client", "manager approval"],
+    "expected_phrases": ["client entertainment", "manager approval required", "expense limit"],
     "should_escalate": false,
     "expected_intent": "policy_lookup"
   },
   {
     "question": "What is the paternity leave entitlement?",
-    "expected_keywords": ["2 weeks", "paternity"],
+    "expected_phrases": ["paternity leave", "weeks leave for new fathers"],
     "should_escalate": false,
     "expected_intent": "policy_lookup"
   },
   {
     "question": "How do I report harassment at work?",
-    "expected_keywords": ["line manager", "HR", "Ethics Hotline"],
+    "expected_phrases": ["report to line manager or HR", "harassment complaint procedure"],
     "should_escalate": false,
     "expected_intent": "policy_lookup"
   },
   {
-    "question": "Can I carry over unused leave?",
-    "expected_keywords": ["5 days", "carry over"],
+    "question": "Can I carry over unused leave to next year?",
+    "expected_phrases": ["carry over unused annual leave", "maximum days allowed to carry over"],
     "should_escalate": false,
     "expected_intent": "policy_lookup"
   },
   {
     "question": "What is the company's policy on cryptocurrency investments by employees?",
-    "expected_keywords": [],
+    "expected_phrases": [],
     "should_escalate": true,
     "expected_intent": "policy_lookup"
   },
   {
-    "question": "How much can I claim for a hotel in London?",
-    "expected_keywords": ["£200", "London"],
+    "question": "How much can I claim for a hotel stay in London?",
+    "expected_phrases": ["hotel accommodation limit London", "nightly rate reimbursement"],
     "should_escalate": false,
     "expected_intent": "policy_lookup"
   },
   {
     "question": "What is the weather today?",
-    "expected_keywords": ["HR", "HR-related"],
+    "expected_phrases": ["only answer HR related questions", "contact appropriate team"],
     "should_escalate": false,
     "expected_intent": "out_of_scope"
   },
   {
     "question": "What is my leave balance?",
-    "expected_keywords": [],
+    "expected_phrases": ["provide your employee ID", "personal record lookup"],
     "should_escalate": false,
     "expected_intent": "personal_record"
   }

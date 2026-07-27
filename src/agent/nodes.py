@@ -1,16 +1,17 @@
-import json
 import os
 import re
 import time
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from src.agent.state import AgentState
+from src.agent.schemas import PolicyAnswer
 from src.agent.tools import lookup_employee_record, escalate_to_hr
 from src.rag.retriever import similarity_search
 from src.config import AI_MODEL, CONFIDENCE_THRESHOLD
 
 # Instantiate once at module level — avoids recreating on every node call
 _llm = ChatOpenAI(model=AI_MODEL, temperature=0)
+_structured_llm = _llm.with_structured_output(PolicyAnswer)
 
 
 def redact_pii(text: str) -> str:
@@ -35,14 +36,7 @@ def _build_prompt(state: AgentState) -> list:
 
 If the answer is clearly in the context, answer confidently and set confidence high (0.8-1.0).
 If the answer is partially covered, answer with caveats and set confidence medium (0.5-0.7).
-If the answer is not in the context at all, say so and set confidence low (0.0-0.4).
-
-Always respond in this JSON format:
-{
-  "answer": "your answer here",
-  "confidence": 0.85,
-  "reasoning": "brief explanation of confidence level"
-}"""
+If the answer is not in the context at all, say so and set confidence low (0.0-0.4)."""
 
     user_message = f"""Policy Context:
 {context}
@@ -53,15 +47,6 @@ Employee Question: {state['question']}"""
         SystemMessage(content=system_prompt),
         HumanMessage(content=user_message),
     ]
-
-
-def _parse_llm_response(content: str) -> tuple[str, float]:
-    """Parse JSON response from LLM. Returns (answer, confidence)."""
-    try:
-        parsed = json.loads(content)
-        return parsed["answer"], parsed["confidence"]
-    except Exception:
-        return content, 0.5
 
 
 def classify_intent(state: AgentState) -> AgentState:
@@ -153,10 +138,15 @@ def escalate_out_of_scope(state: AgentState) -> AgentState:
 
 
 def generate_answer(state: AgentState) -> AgentState:
-    """Generate an answer using retrieved policy context and conversation history."""
+    """Generate an answer using retrieved policy context and conversation history.
+
+    Uses .with_structured_output(PolicyAnswer) so the LLM response is always
+    a validated Pydantic object — no json.loads(), no KeyError at runtime.
+    """
     messages = _build_prompt(state)
-    response = _llm.invoke(messages)
-    state["answer"], state["confidence"] = _parse_llm_response(response.content)
+    result: PolicyAnswer = _structured_llm.invoke(messages)
+    state["answer"] = result.answer
+    state["confidence"] = result.confidence
     return state
 
 
